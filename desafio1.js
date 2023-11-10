@@ -89,3 +89,34 @@ producto1.getProducts()
 producto1.getProductById(2)
 producto1.deleteProduct(1)
 producto1.getProducts()
+
+
+const express = require('express')
+const PORT = 3000
+const app = express()
+
+app.get('/products',(req,res)=>{
+    let todosLosProductos = producto1.getProducts()
+    if(req.query.limit){
+        todosLosProductos = todosLosProductos.splice(0,req.query.limit)
+        res.setHeader('content-type','application/json')
+        res.json({todosLosProductos})
+    }else{
+        res.setHeader('content-type','application/json')
+        res.json({todosLosProductos})
+    }
+})
+
+app.get('/products/:pid', (req,res)=>{
+    let pid = paeseInt(req.params.pid)
+    if(isNaN(pid)){
+        return res.send("No existe ese producto")
+    }else{
+        let todosLosProductos = producto1.getProducts()
+        res.send(todosLosProductos[pid])
+    }
+})
+
+const server = app.listen(PORT, ()=>{
+    console.log("server funcionando")
+})
