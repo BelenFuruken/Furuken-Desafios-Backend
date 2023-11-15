@@ -83,13 +83,13 @@ class ProductManagger{
 let producto1 = new ProductManagger("./productos.txt")
 producto1.addProduct("arroz", "blanco", 111, "nada", 100, 5)
 producto1.addProduct("fideos", "cinta", 222, "nada", 123, 1)
-producto1.addProduct("arroz", "blanco", 333, "nada", 150, 6)
-producto1.addProduct("arroz", "blanco", 444, "nada", 320, 7)
+producto1.addProduct("sss", "blanco", 333, "nada", 150, 6)
+producto1.addProduct("az", "blanco", 444, "nada", 320, 7)
 let todos = producto1.getProducts()
 console.log(todos)
-producto1.getProductById(2)
-producto1.getProductById(1)
-producto1.getProductById(3)
+//producto1.getProductById(2)
+//producto1.getProductById(1)
+//producto1.getProductById(3)
 //producto1.deleteProduct(1)
 
 
@@ -110,12 +110,13 @@ app.get('/products',(req,res)=>{
 })
 
 app.get('/products/:pid', (req,res)=>{
-    let pid = paeseInt(req.params.pid)
-    if(isNaN(pid)){
+    let pid = parseInt(req.params.pid)
+    let todosLosProductos = producto1.getProducts()
+    let existe = todosLosProductos.findIndex(p=>p.id === pid)
+    if(existe==-1){
         return res.send("No existe ese producto")
     }else{
-        let todosLosProductos = producto1.getProducts()
-        res.send(todosLosProductos[pid])
+        res.send(todosLosProductos[existe])
     }
 })
 

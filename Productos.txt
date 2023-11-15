@@ -1,14 +1,5 @@
 [
 	{
-		"id": 1,
-		"title": "arroz",
-		"description": "blanco",
-		"price": 111,
-		"thumbnail": "nada",
-		"code": 100,
-		"stock": 5
-	},
-	{
 		"id": 2,
 		"title": "fideos",
 		"description": "cinta",
@@ -34,5 +25,14 @@
 		"thumbnail": "nada",
 		"code": 320,
 		"stock": 7
+	},
+	{
+		"id": 5,
+		"title": "arroz",
+		"description": "blanco",
+		"price": 111,
+		"thumbnail": "nada",
+		"code": 100,
+		"stock": 5
 	}
 ]
