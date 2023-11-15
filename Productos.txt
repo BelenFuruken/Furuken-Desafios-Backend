@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"title": "arroz",
+		"description": "blanco",
+		"price": 111,
+		"thumbnail": "nada",
+		"code": 100,
+		"stock": 5
+	},
+	{
+		"id": 2,
+		"title": "fideos",
+		"description": "cinta",
+		"price": 222,
+		"thumbnail": "nada",
+		"code": 123,
+		"stock": 1
+	},
+	{
+		"id": 3,
+		"title": "arroz",
+		"description": "blanco",
+		"price": 333,
+		"thumbnail": "nada",
+		"code": 150,
+		"stock": 6
+	},
+	{
+		"id": 4,
+		"title": "arroz",
+		"description": "blanco",
+		"price": 444,
+		"thumbnail": "nada",
+		"code": 320,
+		"stock": 7
+	}
+]
