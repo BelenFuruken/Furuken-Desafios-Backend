@@ -58,13 +58,14 @@ class ProductManagger{
 
     deleteProduct(id){
         let PRODUCTOS = this.getProducts()
-        let indiceEncontrado = PRODUCTOS.findIndex(p=>p.id === id)
+        let lista_p_actualizados = PRODUCTOS.filter(p=>p.id !== id)
+        /*let indiceEncontrado = PRODUCTOS.findIndex(p=>p.id === id)
         if (indiceEncontrado === -1){
             console.log(`El producto con id: ${indiceEncontrado} no existe`)
             return
         }
-        PRODUCTOS.splice(indiceEncontrado, 1)
-        fs.writeFileSync(this.path, JSON.stringify(PRODUCTOS, null, "\t"))
+        PRODUCTOS.splice(indiceEncontrado, 1) */
+        fs.writeFileSync(this.path, JSON.stringify(lista_p_actualizados, null, "\t"))
     }
 
     updateProduct(id, campo, actualizacion){
@@ -92,34 +93,4 @@ console.log(todos)
 //producto1.getProductById(3)
 //producto1.deleteProduct(1)
 
-
-const express = require('express')
-const PORT = 3000
-const app = express()
-
-app.get('/products',(req,res)=>{
-    let todosLosProductos = producto1.getProducts()
-    if(req.query.limit){
-        todosLosProductos = todosLosProductos.splice(0,req.query.limit)
-        res.setHeader('content-type','application/json')
-        res.json({todosLosProductos})
-    }else{
-        res.setHeader('content-type','application/json')
-        res.json({todosLosProductos})
-    }
-})
-
-app.get('/products/:pid', (req,res)=>{
-    let pid = parseInt(req.params.pid)
-    let todosLosProductos = producto1.getProducts()
-    let existe = todosLosProductos.findIndex(p=>p.id === pid)
-    if(existe==-1){
-        return res.send("No existe ese producto")
-    }else{
-        res.send(todosLosProductos[existe])
-    }
-})
-
-const server = app.listen(PORT, ()=>{
-    console.log("server funcionando")
-})
+module.exports = ProductManagger

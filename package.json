@@ -1,9 +1,9 @@
 {
   "name": "desafio-1",
   "version": "1.0.0",
-  "main": "desafio1.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon src/desafio1.js"
+    "start": "nodemon ./app.js"
   },
   "keywords": [],
   "author": "",
