@@ -1,5 +1,6 @@
 const Router = require('express')
 const fs = require('fs')
+const { todo } = require('node:test')
 const path = require('path')
 const router = Router()
 
@@ -15,7 +16,9 @@ function getProducts(){
 }
 
 function addProducts(productosParaAgregar){
-    console.log(productosParaAgregar)
+    /*let productosExistentes = getProducts()
+    productosExistentes.push(productosParaAgregar)*/
+    fs.writeFileSync(ruta, JSON.stringify(productosParaAgregar, null, "\t"))
 }
 
 
@@ -33,11 +36,24 @@ router.get('/',(req,res)=>{ // '/api/products'
 })
 
 router.post('/', (req, res) =>{
-    let {nombre, apellido} = req.body
-    const nuevoUsuario = {
-        nombre, apellido, desc: "hola"
+    let Cpermitidos = ["id", "title", "description", "code", "price", "status", "stock", "category"]
+    let Cingresador = Object.keys(req.body)
+    let aceptado = Cingresador.every(p=>Cpermitidos.includes(p)) // tiene que dar todo true
+    if (!aceptado){
+        res.setHeader('Content-Type','application/json')
+        return res.status(400).json({error: "Propiedades invaliidas"})
+    }
+    let todosLosProductos = getProducts()
+    let id = 1
+    if (todosLosProductos.length>0){
+        id = todosLosProductos[todosLosProductos.length -1]+1
+    }
+    let {title, description, code, price, status, stock, category, thumbnails}= req.body
+    let nuevoUsuario = {
+        id, title, description, code, price, status: true, stock, category, thumbnails
     }
     addProducts(nuevoUsuario)
+    
 })
 
 router.get('/:pid', (req,res)=>{ // '/api/products/:pid'
