@@ -1,11 +1,9 @@
 const Router = require('express')
 const fs = require('fs')
-const { todo } = require('node:test')
 const path = require('path')
 const router = Router()
 
-let ruta = path.join(__dirname, ".." ,"todoLosProductos.txt")
-console.log(ruta)
+let ruta = path.join(__dirname, ".." ,"todosLosProductos.txt")
 
 function getProducts(){
     if(fs.existsSync(ruta)){
@@ -20,8 +18,6 @@ function addProducts(productosParaAgregar){
     productosExistentes.push(productosParaAgregar)*/
     fs.writeFileSync(ruta, JSON.stringify(productosParaAgregar, null, "\t"))
 }
-
-
 
 router.get('/',(req,res)=>{ // '/api/products'
     let todosLosProductos = getProducts()
@@ -67,5 +63,44 @@ router.get('/:pid', (req,res)=>{ // '/api/products/:pid'
     }
 })
 
+router.post("/:pid", (req, res)=>{
+    let pid = parseInt(req.params.pid)
+    let todosLosProductos = getProducts()
+    let existe = todosLosProductos.findIndex(p=>p.id === pid)
+    if (!existe){
+        res.setHeader('Content-Type','application/json')
+        return res.status(400).json({error: "No existe el producto"})
+    }
+    let Cpermitidos = ["id", "title", "description", "code", "price", "status", "stock", "category"]
+    let Cingresador = Object.keys(req.body)
+    let aceptado = Cingresador.every(p=>Cpermitidos.includes(p)) // tiene que dar todo true
+    if (!aceptado){
+        res.setHeader('Content-Type','application/json')
+        return res.status(400).json({error: "Propiedades invaliidas"})
+    }
+    let prodActualizado ={
+        ...todosLosProductos[existe],
+        ...req.body,
+        pid
+    }
+    todosLosProductos[existe]=prodActualizado
+    addProducts(todosLosProductos)
+    res.setHeader('Content-Type','application/json')
+    res.status(200).json({exitoso: "Producto modificado correctamente"})
+})
+
+router.delete("/:pid", (req, res)=>{
+    let pid = parseInt(req.params.pid)
+    let todosLosProductos = getProducts()
+    let existe = todosLosProductos.findIndex(p=>p.id === pid)
+    if (existe===-1){
+        res.setHeader('Content-Type','application/json')
+        return res.status(400).json({error: "No existe el producto"})
+    }
+    todosLosProductos.splice(existe, 1)
+    addProducts(todosLosProductos)
+    res.setHeader('Content-Type','application/json')
+    res.status(200).json({exitoso: "Producto eliminado correctamente"})
+})
 
 module.exports = router

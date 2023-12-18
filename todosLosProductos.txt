@@ -7,14 +7,5 @@
 		"thumbnail": "nada",
 		"code": 123,
 		"stock": 1
-	},
-	{
-		"id": 4,
-		"title": "arroz",
-		"description": "blanco",
-		"price": 444,
-		"thumbnail": "nada",
-		"code": 320,
-		"stock": 7
 	}
 ]
