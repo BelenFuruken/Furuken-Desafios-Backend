@@ -3,7 +3,7 @@ const router = Router()
 const fs = require('fs')
 const path = require('path')
 
-let rutaCart = path.join(__dirname, ".." ,"carritos.txt")
+let rutaCart = path.join(__dirname, ".." ,"carritos.json")
 let rutaProducts = path.join(__dirname, "..", "todosLosProductos.txt")
 
 function getCarts(){
@@ -27,18 +27,19 @@ function getProducts(){
 }
 
 router.post("/", (req, res)=>{
-    let productosElegidos = req.body
-    let todosLosProductos = getProducts()
-    let productos = todosLosProductos.forEach(p => p.title == productosElegidos); //REVIASR
+    let carritos = getCarts().carritos
     let id = 1
-    if (todosLosProductos.length>0){
-        id = todosLosProductos[todosLosProductos.length -1]+1
+    if (carritos.length>0){
+        id = carritos.length + 1
     }
     let carrito = {
-        id, 
-        ...productos
+        id, productos: []
     }
-    createCarts(carrito)
+    carritos.push(carrito)
+    const json = {
+        carritos
+    }
+    createCarts(json)
     res.setHeader('Content-Type','application/json')
     res.status(200).json({exitoso: "Carrito creado correctamente"})
 })
